@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 /**
  * Tips:
  * 1.模拟控制台
- * 2.File输出
+ * 2.File输出(可支持上传服务器)
  * 3.打印堆栈信息
  */
 public class YlLog {
