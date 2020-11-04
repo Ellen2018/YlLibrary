@@ -1,2 +1,3 @@
+include ':yibase'
 include ':app'
 rootProject.name = "YlLibrary"
