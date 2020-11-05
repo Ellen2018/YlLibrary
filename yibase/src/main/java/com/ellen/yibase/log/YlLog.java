@@ -1,8 +1,9 @@
 package com.ellen.yibase.log;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Tips:
@@ -61,18 +62,38 @@ public class YlLog {
     }
 
     public static void log(@YlLogType.TYPE int type, Object... contents) {
-        log(type,YlLogManager.getInstance().getConfig().getDefaultTag(),contents);
+        log(type, YlLogManager.getInstance().getConfig().getDefaultTag(), contents);
     }
 
     public static void log(@YlLogType.TYPE int type, @NonNull String tag, Object... contents) {
-        log(YlLogManager.getInstance().getConfig(),type,tag,contents);
+        log(YlLogManager.getInstance().getConfig(), type, tag, contents);
     }
 
-    public static void log(@NonNull YlLogConfig ylLogConfig, @YlLogType.TYPE int type, @NonNull String tag, Object... contents) {
-        if (!ylLogConfig.enable()) return;
+    public static void log(@NonNull YlLogConfig config, @YlLogType.TYPE int type, @NonNull String tag, Object... contents) {
+        if (!config.enable()) return;
         StringBuilder body = new StringBuilder();
-        body.append(parseBody(contents));
-        Log.println(type, tag, body.toString());
+        if (config.includeThread()) {
+            //打印线程信息
+            String threadInfo = YlLogConfig.YL_THREAD_FORMATTER.format(Thread.currentThread());
+            body.append(threadInfo).append("\n");
+        }
+        if (config.stackTraceDepth() > 0) {
+            //打印堆栈信息
+            String stackTraceInfo = YlLogConfig.YL_STACK_TRACE_FORMATTER.format(new Throwable().getStackTrace());
+            body.append(stackTraceInfo).append("\n");
+        }
+        body.append(parseBody(contents,config));
+        List<YlLogPrinter> printers = config.printers() != null ?
+                Arrays.asList(config.printers())
+                : YlLogManager.getInstance().getPrinters();
+
+        if (printers == null) {
+            return;
+        }
+        //调用打印器进行打印
+        for(YlLogPrinter printer : printers){
+            printer.print(config,type,tag,body.toString());
+        }
     }
 
     /**
@@ -81,7 +102,10 @@ public class YlLog {
      * @param contents
      * @return
      */
-    private static String parseBody(@NonNull Object[] contents) {
+    private static String parseBody(@NonNull Object[] contents,YlLogConfig config) {
+        if(config.injectJsonParser() != null){
+            return config.injectJsonParser().toJson(contents);
+        }
         StringBuilder sb = new StringBuilder();
         for (Object obj : contents) {
             sb.append(obj.toString()).append(";");
