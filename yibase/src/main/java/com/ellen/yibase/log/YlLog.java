@@ -12,6 +12,12 @@ import java.util.List;
  * 3.打印堆栈信息
  */
 public class YlLog {
+    private final static String YL_LOG_PACKAGE;
+
+    static {
+        String className = YlLog.class.getName();
+        YL_LOG_PACKAGE = className.substring(0, className.lastIndexOf('.') + 1);
+    }
 
     public static void v(Object... contents) {
         log(YlLogType.V, contents);
@@ -79,7 +85,8 @@ public class YlLog {
         }
         if (config.stackTraceDepth() > 0) {
             //打印堆栈信息
-            String stackTraceInfo = YlLogConfig.YL_STACK_TRACE_FORMATTER.format(new Throwable().getStackTrace());
+            String stackTraceInfo = YlLogConfig.YL_STACK_TRACE_FORMATTER.format(YlStackTraceUtil
+                    .getCropRealStackTrace(new Throwable().getStackTrace(),YL_LOG_PACKAGE,config.stackTraceDepth()));
             body.append(stackTraceInfo).append("\n");
         }
         body.append(parseBody(contents,config));

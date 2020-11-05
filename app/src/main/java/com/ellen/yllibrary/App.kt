@@ -23,6 +23,10 @@ class App : Application(){
             override fun enable(): Boolean {
                 return true
             }
+
+            override fun stackTraceDepth(): Int {
+                return 7
+            }
         },YlConsolePrinter())
     }
 }
