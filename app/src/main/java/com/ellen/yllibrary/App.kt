@@ -1,9 +1,10 @@
 package com.ellen.yllibrary
 
 import android.app.Application
-import com.ellen.yibase.log.YlConsolePrinter
-import com.ellen.yibase.log.YlLogConfig
-import com.ellen.yibase.log.YlLogManager
+import com.ellen.ylbase.log.YlConsolePrinter
+import com.ellen.ylbase.log.YlLogConfig
+import com.ellen.ylbase.log.YlLogManager
+import com.ellen.ylbase.log.YlViewPrinter
 import com.google.gson.Gson
 
 class App : Application(){
@@ -25,7 +26,7 @@ class App : Application(){
             }
 
             override fun stackTraceDepth(): Int {
-                return 7
+                return 5
             }
         },YlConsolePrinter())
     }
