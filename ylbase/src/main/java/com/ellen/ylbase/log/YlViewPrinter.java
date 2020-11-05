@@ -58,33 +58,6 @@ public class YlViewPrinter implements YlLogPrinter {
         recyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
     }
 
-    public static class YlLogBean {
-        private static SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd HH:mm:ss", Locale.CHINA);
-        public long timeMillis;
-        public int level;
-        public String tag;
-        public String log;
-
-        public YlLogBean(long timeMillis, int level, String tag, String log) {
-            this.timeMillis = timeMillis;
-            this.level = level;
-            this.tag = tag;
-            this.log = log;
-        }
-
-        public String flattenedLog() {
-            return getFlattened() + "\n" + log;
-        }
-
-        public String getFlattened() {
-            return format(timeMillis) + '|' + level + '|' + tag + "|:";
-        }
-
-        private String format(long timeMillis) {
-            return sdf.format(timeMillis);
-        }
-    }
-
     private class YlViewAdapter extends RecyclerView.Adapter<YlViewHolder> {
 
         private List<YlLogBean> ylLogBeanList;

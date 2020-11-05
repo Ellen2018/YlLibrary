@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
             override fun includeThread(): Boolean {
                 return true
             }
-        }, YlLogType.E, "Ellen2020", "5566")
-        YlLog.a("9900")
+        }, YlLogType.E, "Ellen2020", "陈浪的果")
+        YlLog.a("陈浪的果撒大声地啊")
     }
 }
