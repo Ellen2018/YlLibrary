@@ -1,3 +1,4 @@
-include ':ylbase'
+include ':ylui'
+include ':yllibrary'
 include ':app'
 rootProject.name = "YlLibrary"

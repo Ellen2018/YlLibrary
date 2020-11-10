@@ -12,7 +12,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/ylbase" />
+            <option value="$PROJECT_DIR$/yllibrary" />
+            <option value="$PROJECT_DIR$/ylui" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
